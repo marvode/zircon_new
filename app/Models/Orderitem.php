@@ -18,6 +18,6 @@ class Orderitem extends Model
 
     public function trays()
     {
-        return $this->hasMany(Tray::class);
+        return $this->hasOne(Tray::class);
     }
 }

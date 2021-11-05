@@ -15,7 +15,7 @@ class CreateTraysTable extends Migration
     {
         Schema::create('trays', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->unsignedBigInteger('order_id');
             $table->float('price');
             $table->timestamps();
         });

@@ -11,13 +11,13 @@ class Tray extends Model
 
     protected $guarded = [];
 
-    public function orderItem()
+    public function orderItems()
     {
-        return $this->belongsTo(Orderitem::class);
+        return $this->hasMany(Orderitem::class);
     }
 
-    public function fooditems()
+    public function order()
     {
-        return $this->belongsToMany(Fooditem::class);
+        return $this->belongsTo(Order::class);
     }
 }

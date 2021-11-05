@@ -20,8 +20,8 @@ class CreateOrdersTable extends Migration
             $table->string('name');
             $table->enum('status', Order::getOrderStatusList())->default(Order::ORDER_PENDING);
             $table->float('price');
-            $table->float('discount');
-            $table->unsignedBigInteger('payment_id');
+            $table->float('discount')->default(1);
+            $table->unsignedBigInteger('payment_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

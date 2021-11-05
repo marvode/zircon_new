@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Dotenv\Util\Str;
+use Nette\Utils\Random;
 
 class Order extends Model
 {
@@ -29,7 +29,7 @@ class Order extends Model
     // generate random alphanumeric string
     public static function generateOrderName(): string
     {
-        return Str::random(10);
+        return Random::generate(10);
     }
 
     public function user()
@@ -37,8 +37,8 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function orderItems()
+    public function trays()
     {
-        return $this->hasMany(Orderitem::class);
+        return $this->hasMany(Tray::class);
     }
 }

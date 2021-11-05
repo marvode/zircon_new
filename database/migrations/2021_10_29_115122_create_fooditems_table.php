@@ -15,10 +15,13 @@ class CreateFooditemsTable extends Migration
     {
         Schema::create('fooditems', function (Blueprint $table) {
             $table->id();
+            $table->integer('category_id');
             $table->string('name');
+            $table->string('image');
+            $table->boolean('availability');
             $table->string('description');
             $table->float('price');
-            $table->float('discount');
+            $table->float('discount')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });
