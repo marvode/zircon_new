@@ -10,12 +10,13 @@ class CategoryController extends ApiController
 {
     public function index()
     {
-        return response()->json(['data' => Category::all()]);
+        return $this->showAll(Category::get());
     }
 
     public function show(Category $category)
     {
-        return response()->json(['data' => $category->load('fooditems')]);
+        $category = $category->load('fooditems');
+        return $this->showOne($category);
     }
 
     public function store(Request $request)
@@ -28,7 +29,7 @@ class CategoryController extends ApiController
             'name' => $request->name,
         ]);
 
-        return response()->json(['data' => $category], 201);
+        return $this->showOne($category, 201);
     }
 
     public function update(Request $request, Category $category)
@@ -39,13 +40,13 @@ class CategoryController extends ApiController
 
         $category->update(['name' => $request->name]);
 
-        return response()->json(['data' => $category], 200);
+        return $this->showOne($category, 200);
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
 
-        return response()->json(['data' => $category]);
+        return $this->showOne($category);
     }
 }

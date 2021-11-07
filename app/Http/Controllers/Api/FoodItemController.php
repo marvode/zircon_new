@@ -4,18 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Fooditem;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Api\ApiController;
 
-class FoodItemController extends Controller
+class FoodItemController extends ApiController
 {
     public function index()
     {
-        $foodItems = Fooditem::all();
+        $foodItems = Fooditem::get();
 
-        return response()->json([
-            'data' => $foodItems
-        ]);
+        return $this->showAll($foodItems);
     }
 
     public function store(Request $request)
@@ -38,16 +36,12 @@ class FoodItemController extends Controller
             'image' => $image,
         ]);
 
-        return response()->json([
-            'data' => $foodItem
-        ], 201);
+        return $this->showOne($foodItem, 201);
     }
 
-    public function show(Fooditem $foodItem)
+    public function show(Fooditem $fooditem)
     {
-        return response()->json([
-            'data' => $foodItem
-        ]);
+        return $this->showOne($fooditem);
     }
 
     public function update(Request $request, Fooditem $foodItem)
@@ -63,13 +57,11 @@ class FoodItemController extends Controller
         $foodItem->update([
             'name' => $request->name,
             'price' => $request->price,
-            'description' => $request->description,,
+            'description' => $request->description,
             'category_id' => $request->category_id,
         ]);
 
-        return response()->json([
-            'data' => $foodItem
-        ], 200);
+        return $this->showOne($foodItem);
     }
 
     public function destroy($id)
@@ -78,8 +70,6 @@ class FoodItemController extends Controller
 
         $foodItem->delete();
 
-        return response()->json([
-            'data' => $foodItem
-        ], Response::HTTP_NO_CONTENT);
+        return $this->showOne($foodItem);
     }
 }
