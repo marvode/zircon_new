@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Resources\CatogoryResource;
 
 class CategoryController extends ApiController
 {
     public function index()
     {
-        return $this->showAll(Category::get());
+        $catgories = Category::all();
+        return CatogoryResource::collection($catgories);
     }
 
     public function show(Category $category)

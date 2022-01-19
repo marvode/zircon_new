@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AddressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
@@ -18,9 +19,12 @@ use App\Http\Controllers\Api\FoodItemController;
 */
 
 Route::post('auth/login', [AuthController::class, 'login'])->middleware(['guest']);
+Route::post('auth/register', [AuthController::class, 'register'])->middleware(['guest']);
 Route::post('auth/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
+Route::get('auth/user', [AuthController::class, 'user'])->middleware(['auth:sanctum']);
+Route::put('auth/user/edit-details', [AuthController::class, 'edit'])->middleware(['auth:sanctum']);
 
-Route::put('user/profile/change-password', [AuthController::class, 'changePassword'])->middleware(['auth:sanctum']);
+Route::put('auth/change-password', [AuthController::class, 'changePassword'])->middleware(['auth:sanctum']);
 
 
 Route::group([], function () {
@@ -29,6 +33,11 @@ Route::group([], function () {
 
     Route::get('/fooditem', [FoodItemController::class, 'index']);
     Route::get('/fooditem/{fooditem}', [FoodItemController::class, 'show']);
+
+    Route::post('/user/address', [AddressController::class, 'store'])->middleware(['auth:sanctum']);
+    Route::put('/user/address', [AddressController::class, 'update'])->middleware(['auth:sanctum']);
+    Route::delete('/user/address/{id}', [AddressController::class, 'destroy'])->middleware(['auth:sanctum']);
+    Route::put('/user/address/make-default', [AddressController::class, 'makeDefault'])->middleware(['auth:sanctum']);
 });
 
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'admin'], function () {

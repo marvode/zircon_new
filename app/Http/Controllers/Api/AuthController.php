@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AuthUserResource;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
@@ -65,7 +67,52 @@ class AuthController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Password changed successfully'
+            'success' => 'Password changed successfully'
+        ]);
+    }
+
+    public function user()
+    {
+        return new AuthUserResource(Auth::user());
+    }
+
+    public function register(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|string',
+            'password' => 'required|confirmed',
+            'email' => 'required|email|unique:users',
+            'device_name' => 'required',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role_id' => Role::where('name', 'user')->first()->id
+        ]);
+
+        $access_token = $user->createToken($request->device_name)->plainTextToken;
+
+        return response()->json([
+            'data' => [
+                'access_token' => $access_token
+            ]
+        ]);
+    }
+
+    public function edit(Request $request)
+    {
+        $this->validate($request, [
+            'phone_no' => 'required|string',
+        ]);
+
+        Auth::user()->update([
+            'phone_no' => $request->phone_no,
+        ]);
+
+        return response()->json([
+            'success' => 'Profile updated successfully'
         ]);
     }
 }
