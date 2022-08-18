@@ -115,4 +115,9 @@ class AuthController extends Controller
             'success' => 'Profile updated successfully'
         ]);
     }
+
+    public function isLoggedIn()
+    {
+        return response()->json(Auth::check());
+    }
 }

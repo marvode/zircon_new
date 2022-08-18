@@ -37,8 +37,13 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function trays()
+    // public function trays()
+    // {
+    //     return $this->hasMany(Tray::class);
+    // }
+
+    public function orderitems()
     {
-        return $this->hasMany(Tray::class);
+        return $this->hasMany(Orderitem::class);
     }
 }

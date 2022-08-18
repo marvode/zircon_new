@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             FooditemSeeder::class,
             OrderSeeder::class,
-            TraySeeder::class,
+            // TraySeeder::class,
             OrderitemSeeder::class,
             AddressSeeder::class,
         ]);

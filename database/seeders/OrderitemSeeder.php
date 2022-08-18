@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Fooditem;
+use App\Models\Order;
 use App\Models\Orderitem;
 use App\Models\Tray;
 use Illuminate\Database\Seeder;
@@ -17,14 +18,15 @@ class OrderitemSeeder extends Seeder
     public function run()
     {
         $faker = \Faker\Factory::create();
+        $foodItem = Fooditem::inRandomOrder()->first();
 
-        $trays = Tray::all();
-        foreach ($trays as $tray) {
+        $orders = Order::all();
+        foreach ($orders as $order) {
             Orderitem::create([
-                'fooditem_id' => Fooditem::inRandomOrder()->first()->id,
-                'tray_id' => $tray->id,
+                'fooditem_id' => $foodItem->id,
+                'order_id' => $order->id,
                 'quantity' => $faker->numberBetween(1, 3),
-                'unit_price' => $tray->price,
+                'unit_price' => $foodItem->price,
             ]);
         }
     }
